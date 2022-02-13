@@ -91,4 +91,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage msg = new ErrorMessage(HttpStatus.BAD_REQUEST,false, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
     }
+
+    @ExceptionHandler(BadPurchaseHistoryCredentialsException.class)
+    public ResponseEntity<ErrorMessage> badSalesCredentialExceptionHandler(BadPurchaseHistoryCredentialsException ex, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(HttpStatus.BAD_REQUEST,false,ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+    }
+
+    @ExceptionHandler(BadPurchaseException.class)
+    public ResponseEntity<ErrorMessage> badSalesCredentialExceptionHandler(BadPurchaseException ex, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(HttpStatus.BAD_REQUEST,false,ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+    }
 }

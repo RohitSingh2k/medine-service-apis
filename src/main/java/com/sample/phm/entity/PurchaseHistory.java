@@ -5,26 +5,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "purchase")
+@Entity(name = "purchase_history")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Purchase {
-
+public class PurchaseHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    private String company;
+    private String medicine_name;
+    private String company_name;
+    private Integer invoice_id;
+    private Integer cost;
+    private Integer quantity;
     private LocalDateTime date;
-    private String details;
-    private String payment_method;
-    private String total_price;
+    private String volume;
+    private Integer medicine_id;
 }
