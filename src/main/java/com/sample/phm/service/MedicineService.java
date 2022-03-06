@@ -1,6 +1,7 @@
 package com.sample.phm.service;
 
 import com.sample.phm.entity.Medicine;
+import com.sample.phm.entity.Stock;
 import com.sample.phm.exception.BadMedicineCredentialException;
 import com.sample.phm.exception.MedicineNotFoundException;
 import com.sample.phm.repository.MedicineRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -17,13 +19,20 @@ public class MedicineService {
     @Autowired
     MedicineRepository medicineRepository;
 
+    @Autowired
+    StockService stockService;
+
     public ArrayList<Medicine> getAllMedicines() {
         return (ArrayList<Medicine>) medicineRepository.findAll();
     }
 
+    @Transactional(rollbackOn = {BadMedicineCredentialException.class})
     public boolean addMedicine(Medicine medicine) throws BadMedicineCredentialException {
         try{
             medicineRepository.save(medicine);
+            Stock stock = new Stock(medicine.getId(), medicine.getCompany_id(), 0);
+
+            stockService.addStock(stock);
             return true;
         } catch (Exception e) {
             throw new BadMedicineCredentialException("medicine credentials are not complete");
